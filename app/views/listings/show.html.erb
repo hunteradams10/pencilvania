@@ -7,6 +7,15 @@
    <%=image_tag "https://placekitten.com/200/300", alt: @listing.title %>
    <% end %>
 </div>
+<% if @listing.sold %>
+<p>SOLD</p>
+<%elsif current_user && current_user.id == @listing.user_id%>
+<p>Don't buy your own item, it's weird</p>
+<% elsif current_user %>
+<%= button_to "buy me!", place_order_path %>
+<% else %>
+<p>Please log in to make a purchase</p>
+<% end %>
 
 <p>
   <strong>Title:</strong>
@@ -46,6 +55,6 @@
 <%= link_to 'Edit', edit_listing_path(@listing) %> |
 <%= link_to 'Back', listings_path %>
 
-        <% if current_user.id == @listing.user_id %>
+        <% if current_user && current_user.id == @listing.user_id %>
         <td><%= link_to 'Edit', edit_listing_path(@listing) %></td>
         <% end %>
